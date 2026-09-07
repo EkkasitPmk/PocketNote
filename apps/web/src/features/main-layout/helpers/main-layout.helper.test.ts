@@ -22,7 +22,9 @@ describe("main-layout.helper", () => {
     expect(getDesktopSettingsRedirectHref("/categories", null)).toBe(
       "/settings",
     );
-    expect(getDesktopSettingsRedirectHref("/assets", null)).toBe("/settings");
+    expect(getDesktopSettingsRedirectHref("/assets", null)).toBe(
+      "/settings?tab=assets",
+    );
     expect(getDesktopSettingsRedirectHref("/support/feedback", null)).toBe(
       "/settings",
     );
