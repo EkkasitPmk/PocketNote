@@ -261,6 +261,15 @@ export default function TransactionsContainer({
   };
 
   const handleEditCategoryClick = () => {
+    if (
+      isDesktopSheet ||
+      (typeof window !== "undefined" &&
+        window.matchMedia("(min-width: 1024px)").matches)
+    ) {
+      closeTransactionSheet();
+      router.push("/settings?tab=categories");
+      return;
+    }
     router.push("/categories");
   };
 

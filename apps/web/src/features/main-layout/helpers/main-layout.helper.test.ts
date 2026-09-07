@@ -20,7 +20,7 @@ describe("main-layout.helper", () => {
       "/settings?tab=account",
     );
     expect(getDesktopSettingsRedirectHref("/categories", null)).toBe(
-      "/settings",
+      "/settings?tab=categories",
     );
     expect(getDesktopSettingsRedirectHref("/assets", null)).toBe(
       "/settings?tab=assets",
