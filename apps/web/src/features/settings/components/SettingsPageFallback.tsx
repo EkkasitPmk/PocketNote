@@ -4,10 +4,10 @@ export default function SettingsPageFallback() {
   return (
     <div
       aria-label="Loading settings"
-      className="animate-pulse px-4 py-3 md:px-0 md:py-0"
+      className="animate-pulse px-4 py-3 lg:px-0 lg:py-0"
     >
       <div className="mx-auto hidden max-w-360 px-6 pb-6 lg:block">
-        <div className="mb-6 flex h-13 items-center gap-7 border-b border-border">
+        <div className="mb-6 flex h-10 items-center gap-7 border-b border-border">
           {["w-20", "w-36", "w-28", "w-32", "w-24"].map((widthClass, index) => (
             <div
               key={`settings-tab-skeleton-${index}`}
@@ -19,26 +19,55 @@ export default function SettingsPageFallback() {
           ))}
         </div>
 
-        <div className="w-full min-w-0 overflow-hidden rounded-xl border border-border bg-surface pb-4">
-          <div className="flex h-12 items-center gap-2 border-b border-border px-4">
-            <Skeleton className="size-4.5 rounded" />
-            <Skeleton className="h-4 w-20" />
-          </div>
+        <div className="w-full min-w-0 overflow-hidden rounded-xl border border-border bg-surface pb-4 shadow-xs">
           <div className="w-full min-w-0 lg:max-w-xl">
             <div className="my-6 flex flex-col items-center gap-4">
               <Skeleton className="size-18 rounded-full" />
-              <Skeleton className="h-4 w-24" />
             </div>
-            <div className="grid gap-4 px-4">
-              <div className="space-y-2">
+            <section className="space-y-4 px-4 pb-4">
+              <div className="space-y-1">
                 <Skeleton className="h-4 w-28" />
-                <Skeleton className="h-10 w-full rounded-md" />
+                <div>
+                  <div className="rounded-md rounded-b-none border border-border bg-surface p-4">
+                    <div className="space-y-2">
+                      <Skeleton className="h-3 w-24" />
+                      <Skeleton className="h-10 w-full rounded-md" />
+                    </div>
+                  </div>
+                  <div className="rounded-md rounded-t-none border border-t-0 border-border bg-surface p-4">
+                    <div className="space-y-2">
+                      <Skeleton className="h-3 w-28" />
+                      <Skeleton className="h-10 w-full rounded-md" />
+                    </div>
+                  </div>
+                </div>
               </div>
+
+              <div className="space-y-1">
+                <Skeleton className="h-4 w-20" />
+                <div className="flex h-12.5 w-full items-center justify-between rounded-md border border-border bg-surface p-4">
+                  <div className="flex items-center gap-2">
+                    <Skeleton className="size-4 rounded" />
+                    <Skeleton className="h-3 w-32" />
+                  </div>
+                  <Skeleton className="size-4 rounded" />
+                </div>
+              </div>
+
               <div className="space-y-2">
                 <Skeleton className="h-4 w-24" />
-                <Skeleton className="h-10 w-full rounded-md" />
+                <div className="space-y-3 rounded-xl border border-expense/20 bg-expense-light/10 p-4">
+                  <div className="flex items-start gap-3">
+                    <Skeleton className="mt-0.5 size-4.5 shrink-0 rounded" />
+                    <div className="flex flex-1 flex-col gap-1.5 pt-0.5">
+                      <Skeleton className="h-3 w-full" />
+                      <Skeleton className="h-3 w-4/5" />
+                    </div>
+                  </div>
+                  <Skeleton className="h-10 w-full rounded-lg" />
+                </div>
               </div>
-            </div>
+            </section>
           </div>
         </div>
 

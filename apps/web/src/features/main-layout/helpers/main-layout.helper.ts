@@ -46,6 +46,8 @@ export function getDesktopSettingsRedirectHref(
 ): string | null {
   if (pathname === "/assets" && assetId) return null;
   if (pathname === "/settings/account") return "/settings?tab=account";
+  if (pathname === "/assets") return "/settings?tab=assets";
+  if (pathname === "/categories") return "/settings?tab=categories";
   return DESKTOP_SETTINGS_REDIRECT_PATHS.has(pathname) ? "/settings" : null;
 }
 

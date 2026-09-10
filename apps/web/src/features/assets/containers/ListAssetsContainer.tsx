@@ -8,7 +8,7 @@ import { EmptyAssetList } from "../../../shared/components/customs/EmptyAssetLis
 import { AssetIconWrapper } from "@/shared/components/customs/AssetIconWrapper";
 import { Button } from "@/shared/components/animate-ui/components/buttons/button";
 import { Skeleton } from "@/shared/components/ui/skeleton";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useTranslation } from "@/shared/lib/hooks/useTranslation.hook";
 import { TranslationKey } from "@/shared/lib/configs/translations.config";
 import { Asset } from "@/shared/lib/types/asset.type";
@@ -27,10 +27,23 @@ export default function ListAssetsContainer({
   initialAssets,
 }: Readonly<ListAssetsContainerProps>) {
   const pathname = usePathname();
+  const router = useRouter();
   const { t, locale } = useTranslation();
   const { data: assets, isPending: isAssetsPending } = useAssets({
     initialData: initialAssets,
   });
+
+  const handleAssetsTitleClick = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+  ) => {
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia("(min-width: 1024px)").matches
+    ) {
+      event.preventDefault();
+      router.push("/settings?tab=assets");
+    }
+  };
 
   const isLoading = isAssetsPending;
 
@@ -122,6 +135,7 @@ export default function ListAssetsContainer({
             <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.96 }}>
               <Link
                 href="/assets"
+                onClick={handleAssetsTitleClick}
                 className="text-lg font-medium hover:text-primary transition-colors cursor-pointer flex items-center gap-1 group"
               >
                 {t("assetsTitle")}
