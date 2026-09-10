@@ -26,6 +26,25 @@ describe("AuthService refresh session cleanup", () => {
     });
   });
 
+  it("triggers cleanup on application bootstrap and sets daily timer", () => {
+    jest.useFakeTimers();
+    const service = Object.create(AuthService.prototype) as AuthService;
+    const cleanupSpy = jest.fn();
+    (
+      service as unknown as { cleanupRefreshSessions: () => void }
+    ).cleanupRefreshSessions = cleanupSpy;
+
+    service.onApplicationBootstrap();
+
+    expect(cleanupSpy).toHaveBeenCalledTimes(1);
+
+    jest.advanceTimersByTime(24 * 60 * 60 * 1000);
+    expect(cleanupSpy).toHaveBeenCalledTimes(2);
+
+    service.onModuleDestroy();
+    jest.useRealTimers();
+  });
+
   it("returns the current cloud revision after recording a sync", async () => {
     const update = jest.fn().mockResolvedValue({ syncRevision: 7 });
     const service = Object.create(AuthService.prototype) as AuthService;
