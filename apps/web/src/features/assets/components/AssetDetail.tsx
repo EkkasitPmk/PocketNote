@@ -249,7 +249,9 @@ export default function AssetDetail({
                 style={{ backgroundColor: asset?.color || undefined }}
               >
                 <Pencil className="h-4.5 w-4.5" strokeWidth={2} />
-                <span className="text-[0.5625rem] font-semibold">{t("edit")}</span>
+                <span className="text-[0.5625rem] font-semibold">
+                  {t("edit")}
+                </span>
               </Button>
               <div
                 className={cn(
