@@ -39,6 +39,9 @@ import type { User } from "@prisma/client";
 
 type CookieSameSite = "lax" | "strict" | "none";
 
+const ACCESS_TOKEN_MAX_AGE_MS = 2 * 60 * 60 * 1000; // 2 hours
+const REFRESH_TOKEN_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
+
 @ApiTags("Auth")
 @Controller("auth")
 export class AuthController {
@@ -110,7 +113,7 @@ export class AuthController {
       secure,
       sameSite,
       domain,
-      maxAge: 15 * 60 * 1000, // 15 minutes
+      maxAge: ACCESS_TOKEN_MAX_AGE_MS,
     });
 
     res.cookie("refresh_token", refreshToken, {
@@ -118,7 +121,7 @@ export class AuthController {
       secure,
       sameSite,
       domain,
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      maxAge: REFRESH_TOKEN_MAX_AGE_MS,
     });
 
     return { user };
@@ -219,7 +222,7 @@ export class AuthController {
       secure,
       sameSite,
       domain,
-      maxAge: 15 * 60 * 1000,
+      maxAge: ACCESS_TOKEN_MAX_AGE_MS,
     });
 
     res.cookie("refresh_token", newRefreshToken, {
@@ -227,7 +230,7 @@ export class AuthController {
       secure,
       sameSite,
       domain,
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+      maxAge: REFRESH_TOKEN_MAX_AGE_MS,
     });
 
     return { user };

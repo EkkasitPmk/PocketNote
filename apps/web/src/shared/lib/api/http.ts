@@ -16,9 +16,9 @@ const http = axios.create({
   withCredentials: true,
 });
 
-const refreshClient = axios.create({
+export const refreshClient = axios.create({
   baseURL: isBrowser ? API_BASE_PATH : backendUrl,
-  timeout: 15000,
+  timeout: 45000,
   withCredentials: true,
 });
 
@@ -82,7 +82,11 @@ http.interceptors.response.use(
         await refreshAccessToken();
         return http(originalRequest);
       } catch (refreshError) {
-        if (isBrowser) {
+        if (
+          isBrowser &&
+          axios.isAxiosError(refreshError) &&
+          refreshError.response?.status === 401
+        ) {
           window.dispatchEvent(new CustomEvent("auth:session-expired"));
         }
         throw refreshError;

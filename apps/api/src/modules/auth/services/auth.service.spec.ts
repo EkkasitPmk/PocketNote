@@ -26,6 +26,25 @@ describe("AuthService refresh session cleanup", () => {
     });
   });
 
+  it("triggers cleanup on application bootstrap and sets daily timer", () => {
+    jest.useFakeTimers();
+    const service = Object.create(AuthService.prototype) as AuthService;
+    const cleanupSpy = jest.fn();
+    (
+      service as unknown as { cleanupRefreshSessions: () => void }
+    ).cleanupRefreshSessions = cleanupSpy;
+
+    service.onApplicationBootstrap();
+
+    expect(cleanupSpy).toHaveBeenCalledTimes(1);
+
+    jest.advanceTimersByTime(24 * 60 * 60 * 1000);
+    expect(cleanupSpy).toHaveBeenCalledTimes(2);
+
+    service.onModuleDestroy();
+    jest.useRealTimers();
+  });
+
   it("returns the current cloud revision after recording a sync", async () => {
     const update = jest.fn().mockResolvedValue({ syncRevision: 7 });
     const service = Object.create(AuthService.prototype) as AuthService;
@@ -154,14 +173,14 @@ describe("AuthService refresh session cleanup", () => {
       expect(findFirst).toHaveBeenCalledTimes(2);
     });
 
-    it("throws UnauthorizedException when token was revoked outside grace period (> 30s)", async () => {
+    it("throws UnauthorizedException when token was revoked outside grace period (> 120s)", async () => {
       const oldRevokedSession = {
         id: "sess-1",
         userId: "user-1",
         jti: "jti-old",
         expiresAt: new Date(Date.now() + 60_000),
-        revokedAt: new Date(Date.now() - 35_000), // revoked 35s ago (> 30s)
-        createdAt: new Date(Date.now() - 40_000),
+        revokedAt: new Date(Date.now() - 130_000), // revoked 130s ago (> 120s)
+        createdAt: new Date(Date.now() - 140_000),
       };
 
       const verifyAsync = jest.fn().mockResolvedValue(mockJwtPayload);

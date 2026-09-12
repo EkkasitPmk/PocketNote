@@ -4,8 +4,8 @@ import {
   ConflictException,
   Injectable,
   Logger,
+  OnApplicationBootstrap,
   OnModuleDestroy,
-  OnModuleInit,
   UnauthorizedException,
 } from "@nestjs/common";
 import { UserRepository } from "../../user/repositories/user.repository";
@@ -23,10 +23,10 @@ import { StorageService } from "../../../common/storage/storage.service";
 
 const REFRESH_SESSION_RETENTION_MS = 30 * 24 * 60 * 60 * 1000;
 const REFRESH_SESSION_CLEANUP_INTERVAL_MS = 24 * 60 * 60 * 1000;
-const REFRESH_SESSION_ROTATION_GRACE_PERIOD_MS = 30 * 1000;
+const REFRESH_SESSION_ROTATION_GRACE_PERIOD_MS = 120 * 1000;
 
 @Injectable()
-export class AuthService implements OnModuleInit, OnModuleDestroy {
+export class AuthService implements OnApplicationBootstrap, OnModuleDestroy {
   private readonly logger = new Logger(AuthService.name);
   private refreshSessionCleanupTimer?: NodeJS.Timeout;
 
@@ -38,9 +38,9 @@ export class AuthService implements OnModuleInit, OnModuleDestroy {
     private readonly storageService: StorageService,
   ) {}
 
-  onModuleInit() {
-    // Run after startup on the next daily interval; Prisma has completed its
-    // own module initialization by then.
+  onApplicationBootstrap() {
+    // Run immediately on startup once all modules/db are ready, then repeat daily
+    void this.cleanupRefreshSessions();
     this.refreshSessionCleanupTimer = setInterval(
       () => void this.cleanupRefreshSessions(),
       REFRESH_SESSION_CLEANUP_INTERVAL_MS,

@@ -65,7 +65,7 @@ export default function ListAssetsContainer({
               </div>
               <div className="flex items-center gap-1">
                 <Skeleton className="h-5 w-20" />
-                <ChevronRight size={18} className="text-disabled-text" />
+                <Skeleton className="size-4 rounded" />
               </div>
             </div>
           ))}
