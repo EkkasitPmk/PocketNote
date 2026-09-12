@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { AxiosError } from "axios";
+import { AxiosError, type InternalAxiosRequestConfig } from "axios";
 import http, { refreshClient } from "./http";
 
 type InterceptorHandler<T> = {
