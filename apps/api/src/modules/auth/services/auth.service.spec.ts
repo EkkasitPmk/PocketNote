@@ -173,14 +173,14 @@ describe("AuthService refresh session cleanup", () => {
       expect(findFirst).toHaveBeenCalledTimes(2);
     });
 
-    it("throws UnauthorizedException when token was revoked outside grace period (> 30s)", async () => {
+    it("throws UnauthorizedException when token was revoked outside grace period (> 120s)", async () => {
       const oldRevokedSession = {
         id: "sess-1",
         userId: "user-1",
         jti: "jti-old",
         expiresAt: new Date(Date.now() + 60_000),
-        revokedAt: new Date(Date.now() - 35_000), // revoked 35s ago (> 30s)
-        createdAt: new Date(Date.now() - 40_000),
+        revokedAt: new Date(Date.now() - 130_000), // revoked 130s ago (> 120s)
+        createdAt: new Date(Date.now() - 140_000),
       };
 
       const verifyAsync = jest.fn().mockResolvedValue(mockJwtPayload);

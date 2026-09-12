@@ -23,7 +23,7 @@ import { StorageService } from "../../../common/storage/storage.service";
 
 const REFRESH_SESSION_RETENTION_MS = 30 * 24 * 60 * 60 * 1000;
 const REFRESH_SESSION_CLEANUP_INTERVAL_MS = 24 * 60 * 60 * 1000;
-const REFRESH_SESSION_ROTATION_GRACE_PERIOD_MS = 30 * 1000;
+const REFRESH_SESSION_ROTATION_GRACE_PERIOD_MS = 120 * 1000;
 
 @Injectable()
 export class AuthService implements OnApplicationBootstrap, OnModuleDestroy {
