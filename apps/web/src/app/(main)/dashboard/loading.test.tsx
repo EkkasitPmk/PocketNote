@@ -9,7 +9,7 @@ describe("DashboardLoading", () => {
     // Profile header (mobile)
     expect(markup).toContain("bg-background fixed md:hidden top-0");
     // Financial snapshot split cards
-    expect(markup).toContain("h-13.5 w-[42%]");
+    expect(markup).toContain("h-14.5 w-[42%]");
     // Assets header skeleton
     expect(markup).toContain("h-6 w-28");
     // 3 asset rows with skeleton blocks instead of icons
